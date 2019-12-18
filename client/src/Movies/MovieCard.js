@@ -1,7 +1,14 @@
 import React from 'react';
+import {Route} from 'react-router-dom';
 
 const MovieCard = props => {
-  const { title, director, metascore, stars } = props.movie;
+  const { title, director, metascore, stars, id } = props.movie;
+  // console.log(id);
+
+  // const handleEdit = e => {
+  //   e.preventDefault();
+  //   props.history.push(`/update-movie/${id}`)
+  // }
   return (
     <div className="movie-card">
       <h2>{title}</h2>
@@ -18,6 +25,7 @@ const MovieCard = props => {
           {star}
         </div>
       ))}
+      {/* <button onClick={handleEdit}>Update movie</button> */}
     </div>
   );
 };
