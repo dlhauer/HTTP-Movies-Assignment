@@ -36,7 +36,6 @@ export default class Movie extends React.Component {
 
   updateMovie = e => {
     e.preventDefault();
-    // console.log('the update button was clicked');
     this.props.history.push(`/update-movie/${this.state.movie.id}`)
   }
 
@@ -70,12 +69,6 @@ export default class Movie extends React.Component {
         <button className='delete-button' onClick={this.deleteMovie}>
           Delete
         </button>
-        {/* <Route 
-        path='/update-movie/:id'
-        render={props => {
-          return <UpdateMovie {...props} />
-        }}
-        /> */}
       </div>
     );
   }

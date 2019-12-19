@@ -5,7 +5,7 @@ const initialMovie = {
   title: '',
   director: '',
   metascore: '',
-  stars: [],
+  stars: '',
 }
 
 const UpdateMovie = props => {
@@ -15,9 +15,14 @@ const UpdateMovie = props => {
     const movieToEdit = props.movies.find(
       movie => `${movie.id}` === props.match.params.id
     );
-    console.log('movieToEdit: ', movieToEdit)
     if(movieToEdit) {
-      setMovie(movieToEdit)
+      const starString = Array.isArray(movieToEdit.stars) 
+                        ? movieToEdit.stars.join(', ')
+                        : movieToEdit.stars;
+      setMovie({
+        ...movieToEdit,
+        stars: starString
+      })
     }
   }, [props.movies, props.match.params.id])
 
@@ -26,19 +31,17 @@ const UpdateMovie = props => {
 
     setMovie( {
       ...movie,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
-    console.log(movie);
   }
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log('stars array, right? ', movie.stars.split(','));
     // setMovie( {
-      
+    //   ...movie,
     //   stars: movie.stars.split(',')
     // })
-    // console.log('movie object: ', movie);
+    console.log('movie object: ', movie);
     axios
       .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
       .then( res => {
@@ -46,15 +49,14 @@ const UpdateMovie = props => {
           return item.id === movie.id ? movie : item;
         }))
         props.history.push(`/movies/${movie.id}`)
-        // console.log('updated movies array maybe? ', props.movies);
       })
   }
 
-  // console.log('movie stars: ', movie.stars.join(', '));
   return (
     <div className='update-movie-form'>
       <h2>Update Movie</h2>
-      <form onSubmit={handleSubmit}>
+      <form 
+        onSubmit={handleSubmit}>
         <input
           type='text'
           name='title'
@@ -84,6 +86,7 @@ const UpdateMovie = props => {
           value={movie.stars}
         />
         <button>Update</button>
+
       </form>
     </div>
   );

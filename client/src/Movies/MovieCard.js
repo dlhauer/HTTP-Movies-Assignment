@@ -3,12 +3,7 @@ import {Route} from 'react-router-dom';
 
 const MovieCard = props => {
   const { title, director, metascore, stars, id } = props.movie;
-  // console.log(id);
-
-  // const handleEdit = e => {
-  //   e.preventDefault();
-  //   props.history.push(`/update-movie/${id}`)
-  // }
+  const starArray = Array.isArray(stars) ? stars : stars.split(',')
   return (
     <div className="movie-card">
       <h2>{title}</h2>
@@ -19,8 +14,8 @@ const MovieCard = props => {
         Metascore: <strong>{metascore}</strong>
       </div>
       <h3>Actors</h3>
-
-      {stars.map(star => (
+      
+      {starArray.map(star => (
         <div key={star} className="movie-star">
           {star}
         </div>
