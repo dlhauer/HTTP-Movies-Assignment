@@ -1,6 +1,9 @@
 import React from "react";
+import { Route } from 'react-router-dom';
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import UpdateMovie from './UpdateMovie';
+
 export default class Movie extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +34,24 @@ export default class Movie extends React.Component {
     addToSavedList(this.state.movie);
   };
 
+  updateMovie = e => {
+    e.preventDefault();
+    this.props.history.push(`/update-movie/${this.state.movie.id}`)
+  }
+
+  deleteMovie = e => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:5000/api/movies/${this.state.movie.id}`)
+      .then( res => {
+        console.log('response from delete request: ', res.data);
+        this.props.updateMovies( this.props.movies.filter( movie => {
+          return movie.id !== res.data;
+        }));
+        this.props.history.push('/');
+      })
+  }
+
   render() {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
@@ -42,6 +63,12 @@ export default class Movie extends React.Component {
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>
+        <button className='update-button' onClick={this.updateMovie}>
+          Update
+        </button>
+        <button className='delete-button' onClick={this.deleteMovie}>
+          Delete
+        </button>
       </div>
     );
   }
